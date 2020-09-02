@@ -32,16 +32,6 @@ module.exports = {
         "icon": "reco-date"
       },
       {
-        "text": "Docs",
-        "icon": "reco-message",
-        "items": [
-          {
-            "text": "vuepress-reco",
-            "link": "/docs/theme-reco/"
-          }
-        ]
-      },
-      {
         "text": "Contact",
         "icon": "reco-message",
         "items": [
