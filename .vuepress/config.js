@@ -79,7 +79,7 @@ module.exports = {
     "searchMaxSuggestions": 10,
     "lastUpdated": "Last Updated",
     "author": "Aben",
-    "authorAvatar": "/avatar.png",
+    "authorAvatar": "/avatar.jpg",
     "record": "",
     "startYear": "2020"
   },
