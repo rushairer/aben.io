@@ -36,7 +36,7 @@ module.exports = {
         "icon": "reco-date"
       },
       {
-        "text": "Contact",
+        "text": "More",
         "icon": "reco-message",
         "items": [
           {
