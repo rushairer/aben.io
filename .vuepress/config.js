@@ -23,7 +23,7 @@ module.exports = {
     "valineConfig": {
       "appId": "KQXnjWYg1fgbPFTsKxmp8R88-gzGzoHsz",// your appId
       "appKey": "mQV2EaGlDOHTKsnCgS6o9A8J", // your appKey
-    }
+    },
     "nav": [
       {
         "text": "Home",
