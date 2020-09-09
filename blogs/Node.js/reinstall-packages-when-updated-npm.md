@@ -10,4 +10,5 @@ categories:
 
 ```shell
 nvm install lts/dubnium  --latest-npm --reinstall-packages-from=$(nvm current)
+nvm install lts/erbium  --latest-npm --reinstall-packages-from=$(nvm current)
 ```
