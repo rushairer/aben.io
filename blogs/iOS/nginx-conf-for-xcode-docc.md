@@ -11,15 +11,28 @@ categories:
 ---
 
 ```conf
-        location ~* ^/(documentation|tutorials) {
-            root   /path/of/YourDocument.docc;
-            try_files $uri $uri/ /documentation/index.html;
-        }
+   server {
+      listen 0.0.0.0:8080;
+      
+      location / {
+          return 301 http://docc.io84.com/documentation/abalbum ;
+      }
+  
+      location ~* ^/(documentation|tutorials) {
+          root   /app;
+          try_files $uri $uri/ /documentation/index.html;
+      }
 
-        location ~* ^/(css|js|data|images|downloads|favicon\.ico|favicon\.svg|img|theme-settings\.json|videos)\/.*$ {
-            root   /path/of/YourDocument.docc;
-            try_files $uri /documentation/$uri;
-        }
+      location ~* ^/(css|js|data|images|downloads|img|videos)\/.*$ {
+          root   /app;
+          try_files $uri /documentation/$uri;
+      }
+      
+      location ~* ^/(favicon\.ico|favicon\.svg|theme-settings\.json)$ {
+          root   /app;
+          try_files $uri /documentation/$uri;
+      }
+  }
 ```
 
 
