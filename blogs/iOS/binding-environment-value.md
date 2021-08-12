@@ -1,5 +1,5 @@
 ---
-title: Binding @@Environment to @Binding value.
+title: Binding @Environment to @Binding value.
 date: 2021-08-13 00:24:05
 tags:
     - SwiftUI
