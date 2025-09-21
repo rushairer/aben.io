@@ -20,24 +20,26 @@ type Common struct {
 }
 
 type ProjectInterface[T any] interface {
-	Init() *T
-	Func1() *T
+	Init() T
+	Func1() T
 }
 
 type ProjectStruct struct {
 	Name string
 }
 
-func (p *ProjectStruct) Init() *ProjectStruct {
-	return p
+func (p ProjectStruct) Init() ProjectStruct {
+	// 返回深拷贝，而不是指针
+	return ProjectStruct{Name: p.Name}
 }
 
-func (p *ProjectStruct) Func1() *ProjectStruct {
-	return p
+func (p ProjectStruct) Func1() ProjectStruct {
+	// 返回深拷贝，而不是指针
+	return ProjectStruct{Name: p.Name}
 }
 
 func Test() {
-	var project ProjectInterface[ProjectStruct] = (&ProjectStruct{Name: "I am Project"}).Init().Func1()
+	project := ProjectStruct{Name: "I am Project"}.Init().Func1()
 	fmt.Println(project)
 }
 
