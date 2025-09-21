@@ -488,7 +488,7 @@ func WithDomain(ctx context.Context, domain string) context.Context {
 
 ```
 
-### 5.3 Kubernetes 多租户
+### 5.3 多租户 (Multi-tenancy)
 ```go
 // k8s.io/apiserver/pkg/endpoints/request
 type RequestInfo struct {
