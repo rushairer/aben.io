@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Go Context 学习笔记 | Aben&#39;s Blog</title>
+    <meta name="generator" content="VuePress 1.5.0">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="description" content="This is aben's blog.">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <link rel="preload" href="/assets/css/0.styles.caecc3f6.css" as="style"><link rel="preload" href="/assets/js/app.996b1a4d.js" as="script"><link rel="preload" href="/assets/js/3.0091ba29.js" as="script"><link rel="preload" href="/assets/js/1.aa576b7d.js" as="script"><link rel="preload" href="/assets/js/18.fd55f558.js" as="script"><link rel="prefetch" href="/assets/js/10.f549d671.js"><link rel="prefetch" href="/assets/js/11.7e4e42f3.js"><link rel="prefetch" href="/assets/js/12.08e49330.js"><link rel="prefetch" href="/assets/js/13.8e5fc99c.js"><link rel="prefetch" href="/assets/js/14.9ee346d3.js"><link rel="prefetch" href="/assets/js/15.caaeba10.js"><link rel="prefetch" href="/assets/js/16.9b5a966b.js"><link rel="prefetch" href="/assets/js/17.bd6d402a.js"><link rel="prefetch" href="/assets/js/19.63ecadff.js"><link rel="prefetch" href="/assets/js/20.ebe3a7c2.js"><link rel="prefetch" href="/assets/js/21.dfdf030c.js"><link rel="prefetch" href="/assets/js/22.9f748b4f.js"><link rel="prefetch" href="/assets/js/23.37f3fea1.js"><link rel="prefetch" href="/assets/js/24.eb5b3943.js"><link rel="prefetch" href="/assets/js/25.116adcc2.js"><link rel="prefetch" href="/assets/js/26.b4a934ec.js"><link rel="prefetch" href="/assets/js/27.363e0883.js"><link rel="prefetch" href="/assets/js/28.75255944.js"><link rel="prefetch" href="/assets/js/29.77461523.js"><link rel="prefetch" href="/assets/js/30.4839a901.js"><link rel="prefetch" href="/assets/js/31.ae08ceb0.js"><link rel="prefetch" href="/assets/js/4.d633a43d.js"><link rel="prefetch" href="/assets/js/5.0a10bb8f.js"><link rel="prefetch" href="/assets/js/6.c169e9c1.js"><link rel="prefetch" href="/assets/js/7.b4bfc0a4.js"><link rel="prefetch" href="/assets/js/8.87e41939.js"><link rel="prefetch" href="/assets/js/9.b1ee8a42.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.caecc3f6.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar" data-v-dad8a512><div data-v-dad8a512><div id="loader-wrapper" class="loading-wrapper" data-v-d48f4d20 data-v-dad8a512 data-v-dad8a512><div class="loader-main" data-v-d48f4d20><div data-v-d48f4d20></div><div data-v-d48f4d20></div><div data-v-d48f4d20></div><div data-v-d48f4d20></div></div> <!----> <!----></div> <div class="password-shadow password-wrapper-out" style="display:none;" data-v-64685f0e data-v-dad8a512 data-v-dad8a512><h3 class="title" style="display:none;" data-v-64685f0e data-v-64685f0e>Aben's Blog</h3> <!----> <label id="box" class="inputBox" style="display:none;" data-v-64685f0e data-v-64685f0e><input type="password" value="" data-v-64685f0e> <span data-v-64685f0e>Konck! Knock!</span> <button data-v-64685f0e>OK</button></label> <div class="footer" style="display:none;" data-v-64685f0e data-v-64685f0e><span data-v-64685f0e><i class="iconfont reco-theme" data-v-64685f0e></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-64685f0e>vuePress-theme-reco</a></span> <span data-v-64685f0e><i class="iconfont reco-copyright" data-v-64685f0e></i> <a data-v-64685f0e><span data-v-64685f0e>Aben</span>
+            
+          <span data-v-64685f0e>2020 - </span>
+          2025
+        </a></span></div></div> <div class="hide" data-v-dad8a512><header class="navbar" data-v-dad8a512><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/logo.png" alt="Aben's Blog" class="logo"> <span class="site-name">Aben's Blog</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <div class="search-box"><i class="iconfont reco-search"></i> <input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      Category
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/Docker/" class="nav-link"><i class="iconfont undefined"></i>
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/categories/Node.js/" class="nav-link"><i class="iconfont undefined"></i>
+  Node.js
+</a></li><li class="dropdown-item"><!----> <a href="/categories/golang/" class="nav-link"><i class="iconfont undefined"></i>
+  golang
+</a></li><li class="dropdown-item"><!----> <a href="/categories/iOS/" class="nav-link"><i class="iconfont undefined"></i>
+  iOS
+</a></li><li class="dropdown-item"><!----> <a href="/categories/macOS/" class="nav-link"><i class="iconfont undefined"></i>
+  macOS
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  Tag
+</a></div><div class="nav-item"><a href="/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  TimeLine
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      More
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/rushairer" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://github.com/rushairer/aben.io" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-lock"></i>
+  Backend
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-dad8a512></div> <aside class="sidebar" data-v-dad8a512><div class="personal-info-wrapper" data-v-ca798c94 data-v-dad8a512><img src="/avatar.jpg" alt="author-avatar" class="personal-img" data-v-ca798c94> <h3 class="name" data-v-ca798c94>
+    Aben
+  </h3> <div class="num" data-v-ca798c94><div data-v-ca798c94><h3 data-v-ca798c94>21</h3> <h6 data-v-ca798c94>Article</h6></div> <div data-v-ca798c94><h3 data-v-ca798c94>24</h3> <h6 data-v-ca798c94>Tag</h6></div></div> <hr data-v-ca798c94></div> <nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      Category
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/Docker/" class="nav-link"><i class="iconfont undefined"></i>
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/categories/Node.js/" class="nav-link"><i class="iconfont undefined"></i>
+  Node.js
+</a></li><li class="dropdown-item"><!----> <a href="/categories/golang/" class="nav-link"><i class="iconfont undefined"></i>
+  golang
+</a></li><li class="dropdown-item"><!----> <a href="/categories/iOS/" class="nav-link"><i class="iconfont undefined"></i>
+  iOS
+</a></li><li class="dropdown-item"><!----> <a href="/categories/macOS/" class="nav-link"><i class="iconfont undefined"></i>
+  macOS
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  Tag
+</a></div><div class="nav-item"><a href="/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  TimeLine
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      More
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/rushairer" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://github.com/rushairer/aben.io" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-lock"></i>
+  Backend
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <!----></nav> <!----> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-64685f0e data-v-dad8a512><h3 class="title" style="display:none;" data-v-64685f0e data-v-64685f0e>Go Context 学习笔记</h3> <!----> <label id="box" class="inputBox" style="display:none;" data-v-64685f0e data-v-64685f0e><input type="password" value="" data-v-64685f0e> <span data-v-64685f0e>Konck! Knock!</span> <button data-v-64685f0e>OK</button></label> <div class="footer" style="display:none;" data-v-64685f0e data-v-64685f0e><span data-v-64685f0e><i class="iconfont reco-theme" data-v-64685f0e></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-64685f0e>vuePress-theme-reco</a></span> <span data-v-64685f0e><i class="iconfont reco-copyright" data-v-64685f0e></i> <a data-v-64685f0e><span data-v-64685f0e>Aben</span>
+            
+          <span data-v-64685f0e>2020 - </span>
+          2025
+        </a></span></div></div> <div data-v-dad8a512><main class="page"><div class="page-title" style="display:none;"><h1>Go Context 学习笔记</h1> <div data-v-3b7f5bdf><i class="iconfont reco-account" data-v-3b7f5bdf><span data-v-3b7f5bdf>Aben</span></i> <i class="iconfont reco-date" data-v-3b7f5bdf><span data-v-3b7f5bdf>2025-09-21 22:21:00</span></i> <i class="iconfont reco-eye" data-v-3b7f5bdf><span id="/blogs/golang/learn-context.html" data-flag-title="Your Article Title" class="leancloud-visitors" data-v-3b7f5bdf><a class="leancloud-visitors-count" style="font-size:.9rem;font-weight:normal;color:#999;"></a></span></i> <i class="iconfont reco-tag tags" data-v-3b7f5bdf><span class="tag-item" data-v-3b7f5bdf>golang</span><span class="tag-item" data-v-3b7f5bdf>context</span></i></div></div> <div class="theme-reco-content content__default" style="display:none;"><h1 id="go-context-学习笔记"><a href="#go-context-学习笔记" class="header-anchor">#</a> Go Context 学习笔记</h1> <h2 id="_1-context-接口的四个核心方法"><a href="#_1-context-接口的四个核心方法" class="header-anchor">#</a> 1. Context 接口的四个核心方法</h2> <h3 id="_1-1-接口定义"><a href="#_1-1-接口定义" class="header-anchor">#</a> 1.1 接口定义</h3> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token keyword">type</span> Context <span class="token keyword">interface</span> <span class="token punctuation">{</span>
+    <span class="token function">Deadline</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>deadline time<span class="token punctuation">.</span>Time<span class="token punctuation">,</span> ok <span class="token builtin">bool</span><span class="token punctuation">)</span>
+    <span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;-</span><span class="token keyword">chan</span> <span class="token keyword">struct</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token function">Err</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">error</span>
+    <span class="token function">Value</span><span class="token punctuation">(</span>key <span class="token keyword">interface</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token keyword">interface</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h3 id="_1-2-方法详解"><a href="#_1-2-方法详解" class="header-anchor">#</a> 1.2 方法详解</h3> <h4 id="deadline-deadline-time-time-ok-bool"><a href="#deadline-deadline-time-time-ok-bool" class="header-anchor">#</a> <code>Deadline() (deadline time.Time, ok bool)</code></h4> <p><strong>作用</strong>：返回上下文的截止时间</p> <ul><li><strong>返回值</strong>：
+<ul><li><code>deadline</code>：截止时间</li> <li><code>ok</code>：布尔值，表示是否设置了截止时间</li></ul></li> <li><strong>含义</strong>：告诉调用者这个上下文何时应该被取消。如果没有设置截止时间，<code>ok</code> 返回 <code>false</code></li> <li><strong>特点</strong>：连续调用会返回相同的结果</li></ul> <h4 id="done-chan-struct"><a href="#done-chan-struct" class="header-anchor">#</a> <code>Done() &lt;-chan struct{}</code></h4> <p><strong>作用</strong>：返回一个只读通道，当上下文应该被取消时，该通道会被关闭</p> <ul><li><strong>返回值</strong>：只读的 <code>struct{}</code> 类型通道</li> <li><strong>含义</strong>：
+<ul><li>用于监听取消信号</li> <li>通道关闭表示工作应该停止</li> <li>如果上下文永远不会被取消，可能返回 <code>nil</code></li></ul></li> <li><strong>使用场景</strong>：主要用在 <code>select</code> 语句中进行取消检测</li> <li><strong>触发条件</strong>：
+<ul><li><code>WithCancel</code> 调用 cancel 函数时</li> <li><code>WithDeadline</code> 到达截止时间时</li> <li><code>WithTimeout</code> 超时时</li></ul></li></ul> <h4 id="err-error"><a href="#err-error" class="header-anchor">#</a> <code>Err() error</code></h4> <p><strong>作用</strong>：返回上下文被取消的原因</p> <ul><li><strong>返回值</strong>：
+<ul><li>如果 <code>Done</code> 通道未关闭：返回 <code>nil</code></li> <li>如果 <code>Done</code> 通道已关闭：返回具体的错误原因</li></ul></li> <li><strong>可能的错误类型</strong>：
+<ul><li><code>DeadlineExceeded</code>：超过截止时间</li> <li><code>Canceled</code>：被其他原因取消</li></ul></li> <li><strong>特点</strong>：一旦返回非 <code>nil</code> 错误，后续调用返回相同错误</li></ul> <h4 id="value-key-interface-interface"><a href="#value-key-interface-interface" class="header-anchor">#</a> <code>Value(key interface{}) interface{}</code></h4> <p><strong>作用</strong>：根据键获取上下文中存储的值</p> <ul><li><strong>参数</strong>：<code>key</code> - 任何支持相等比较的类型</li> <li><strong>返回值</strong>：与键关联的值，如果不存在则返回 <code>nil</code></li> <li><strong>使用原则</strong>：
+<ul><li>仅用于请求范围的数据传递</li> <li>不应用于传递可选参数给函数</li> <li>键应该定义为未导出类型以避免冲突</li></ul></li> <li><strong>特点</strong>：相同键的连续调用返回相同结果</li></ul> <h2 id="_2-自定义-context-实现示例"><a href="#_2-自定义-context-实现示例" class="header-anchor">#</a> 2. 自定义 Context 实现示例</h2> <h3 id="_2-1-基础-context-实现"><a href="#_2-1-基础-context-实现" class="header-anchor">#</a> 2.1 基础 Context 实现</h3> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">&quot;fmt&quot;</span>
+    <span class="token string">&quot;sync&quot;</span>
+    <span class="token string">&quot;time&quot;</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment">// 基础的 emptyCtx</span>
+<span class="token keyword">type</span> emptyCtx <span class="token builtin">int</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span><span class="token operator">*</span>emptyCtx<span class="token punctuation">)</span> <span class="token function">Deadline</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>deadline time<span class="token punctuation">.</span>Time<span class="token punctuation">,</span> ok <span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span><span class="token operator">*</span>emptyCtx<span class="token punctuation">)</span> <span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;-</span><span class="token keyword">chan</span> <span class="token keyword">struct</span><span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span><span class="token operator">*</span>emptyCtx<span class="token punctuation">)</span> <span class="token function">Err</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span><span class="token operator">*</span>emptyCtx<span class="token punctuation">)</span> <span class="token function">Value</span><span class="token punctuation">(</span>key <span class="token keyword">interface</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token keyword">interface</span><span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">var</span> <span class="token punctuation">(</span>
+    background <span class="token operator">=</span> <span class="token function">new</span><span class="token punctuation">(</span>emptyCtx<span class="token punctuation">)</span>
+    todo       <span class="token operator">=</span> <span class="token function">new</span><span class="token punctuation">(</span>emptyCtx<span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span> Context <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> background
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">TODO</span><span class="token punctuation">(</span><span class="token punctuation">)</span> Context <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> todo
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br></div></div><h3 id="_2-2-可取消-context"><a href="#_2-2-可取消-context" class="header-anchor">#</a> 2.2 可取消 Context</h3> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token keyword">type</span> cancelCtx <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    Context
+    mu       sync<span class="token punctuation">.</span>Mutex
+    done     <span class="token keyword">chan</span> <span class="token keyword">struct</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    children <span class="token keyword">map</span><span class="token punctuation">[</span>canceler<span class="token punctuation">]</span><span class="token keyword">struct</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    err      <span class="token builtin">error</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> canceler <span class="token keyword">interface</span> <span class="token punctuation">{</span>
+    <span class="token function">cancel</span><span class="token punctuation">(</span>removeFromParent <span class="token builtin">bool</span><span class="token punctuation">,</span> err <span class="token builtin">error</span><span class="token punctuation">)</span>
+    <span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;-</span><span class="token keyword">chan</span> <span class="token keyword">struct</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>cancelCtx<span class="token punctuation">)</span> <span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;-</span><span class="token keyword">chan</span> <span class="token keyword">struct</span><span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token punctuation">{</span>
+    c<span class="token punctuation">.</span>mu<span class="token punctuation">.</span><span class="token function">Lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> c<span class="token punctuation">.</span>done <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        c<span class="token punctuation">.</span>done <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token keyword">struct</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    d <span class="token operator">:=</span> c<span class="token punctuation">.</span>done
+    c<span class="token punctuation">.</span>mu<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> d
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>cancelCtx<span class="token punctuation">)</span> <span class="token function">Err</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
+    c<span class="token punctuation">.</span>mu<span class="token punctuation">.</span><span class="token function">Lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    err <span class="token operator">:=</span> c<span class="token punctuation">.</span>err
+    c<span class="token punctuation">.</span>mu<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> err
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>cancelCtx<span class="token punctuation">)</span> <span class="token function">cancel</span><span class="token punctuation">(</span>removeFromParent <span class="token builtin">bool</span><span class="token punctuation">,</span> err <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> err <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        <span class="token function">panic</span><span class="token punctuation">(</span><span class="token string">&quot;context: internal error: missing cancel error&quot;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    c<span class="token punctuation">.</span>mu<span class="token punctuation">.</span><span class="token function">Lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> c<span class="token punctuation">.</span>err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        c<span class="token punctuation">.</span>mu<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token comment">// 已经被取消了</span>
+    <span class="token punctuation">}</span>
+    c<span class="token punctuation">.</span>err <span class="token operator">=</span> err
+    <span class="token keyword">if</span> c<span class="token punctuation">.</span>done <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        c<span class="token punctuation">.</span>done <span class="token operator">=</span> closedchan
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token function">close</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>done<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">for</span> child <span class="token operator">:=</span> <span class="token keyword">range</span> c<span class="token punctuation">.</span>children <span class="token punctuation">{</span>
+        child<span class="token punctuation">.</span><span class="token function">cancel</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    c<span class="token punctuation">.</span>children <span class="token operator">=</span> <span class="token boolean">nil</span>
+    c<span class="token punctuation">.</span>mu<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br></div></div><h3 id="_2-3-超时-context"><a href="#_2-3-超时-context" class="header-anchor">#</a> 2.3 超时 Context</h3> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token keyword">type</span> timerCtx <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    cancelCtx
+    timer <span class="token operator">*</span>time<span class="token punctuation">.</span>Timer
+    deadline time<span class="token punctuation">.</span>Time
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>timerCtx<span class="token punctuation">)</span> <span class="token function">Deadline</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>deadline time<span class="token punctuation">.</span>Time<span class="token punctuation">,</span> ok <span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> c<span class="token punctuation">.</span>deadline<span class="token punctuation">,</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">WithTimeout</span><span class="token punctuation">(</span>parent Context<span class="token punctuation">,</span> timeout time<span class="token punctuation">.</span>Duration<span class="token punctuation">)</span> <span class="token punctuation">(</span>Context<span class="token punctuation">,</span> CancelFunc<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">WithDeadline</span><span class="token punctuation">(</span>parent<span class="token punctuation">,</span> time<span class="token punctuation">.</span><span class="token function">Now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>timeout<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">WithDeadline</span><span class="token punctuation">(</span>parent Context<span class="token punctuation">,</span> d time<span class="token punctuation">.</span>Time<span class="token punctuation">)</span> <span class="token punctuation">(</span>Context<span class="token punctuation">,</span> CancelFunc<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> cur<span class="token punctuation">,</span> ok <span class="token operator">:=</span> parent<span class="token punctuation">.</span><span class="token function">Deadline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> ok <span class="token operator">&amp;&amp;</span> cur<span class="token punctuation">.</span><span class="token function">Before</span><span class="token punctuation">(</span>d<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">WithCancel</span><span class="token punctuation">(</span>parent<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    c <span class="token operator">:=</span> <span class="token operator">&amp;</span>timerCtx<span class="token punctuation">{</span>
+        cancelCtx<span class="token punctuation">:</span> <span class="token function">newCancelCtx</span><span class="token punctuation">(</span>parent<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        deadline<span class="token punctuation">:</span>  d<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+    
+    dur <span class="token operator">:=</span> time<span class="token punctuation">.</span><span class="token function">Until</span><span class="token punctuation">(</span>d<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> dur <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+        c<span class="token punctuation">.</span><span class="token function">cancel</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">,</span> DeadlineExceeded<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> c<span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> c<span class="token punctuation">.</span><span class="token function">cancel</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">,</span> Canceled<span class="token punctuation">)</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
+    c<span class="token punctuation">.</span>timer <span class="token operator">=</span> time<span class="token punctuation">.</span><span class="token function">AfterFunc</span><span class="token punctuation">(</span>dur<span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        c<span class="token punctuation">.</span><span class="token function">cancel</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">,</span> DeadlineExceeded<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> c<span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> c<span class="token punctuation">.</span><span class="token function">cancel</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">,</span> Canceled<span class="token punctuation">)</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br></div></div><h2 id="_3-context-使用原则"><a href="#_3-context-使用原则" class="header-anchor">#</a> 3. Context 使用原则</h2> <h3 id="_3-1-✅-应该放在-context-中的"><a href="#_3-1-✅-应该放在-context-中的" class="header-anchor">#</a> 3.1 ✅ 应该放在 Context 中的</h3> <ol><li><strong>请求范围的数据</strong>：用户ID、请求ID、trace信息</li> <li><strong>跨进程/API边界的数据</strong>：认证信息、元数据</li> <li><strong>取消信号和超时</strong>：deadline、cancellation</li> <li><strong>调试信息</strong>：trace ID、span ID</li></ol> <h3 id="_3-2-❌-不应该放在-context-中的"><a href="#_3-2-❌-不应该放在-context-中的" class="header-anchor">#</a> 3.2 ❌ 不应该放在 Context 中的</h3> <ol><li><strong>可选的函数参数</strong>：配置项、选项</li> <li><strong>业务逻辑</strong>：计算方法、验证逻辑</li> <li><strong>依赖项</strong>：数据库连接、HTTP 客户端</li> <li><strong>可变状态</strong>：计数器、累加器</li></ol> <h3 id="_3-3-正确的封装方式"><a href="#_3-3-正确的封装方式" class="header-anchor">#</a> 3.3 正确的封装方式</h3> <h4 id="请求上下文封装"><a href="#请求上下文封装" class="header-anchor">#</a> 请求上下文封装</h4> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// RequestContext 封装请求相关信息</span>
+<span class="token keyword">type</span> RequestContext <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    context<span class="token punctuation">.</span>Context
+    RequestID   <span class="token builtin">string</span>
+    UserID      <span class="token builtin">int64</span>
+    UserRole    <span class="token builtin">string</span>
+    ClientIP    <span class="token builtin">string</span>
+    UserAgent   <span class="token builtin">string</span>
+    StartTime   time<span class="token punctuation">.</span>Time
+    TraceID     <span class="token builtin">string</span>
+    SpanID      <span class="token builtin">string</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> contextKey <span class="token builtin">string</span>
+<span class="token keyword">const</span> requestContextKey contextKey <span class="token operator">=</span> <span class="token string">&quot;request_context&quot;</span>
+
+<span class="token keyword">func</span> <span class="token function">NewRequestContext</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token operator">*</span>RequestContext <span class="token punctuation">{</span>
+    reqCtx <span class="token operator">:=</span> <span class="token operator">&amp;</span>RequestContext<span class="token punctuation">{</span>
+        Context<span class="token punctuation">:</span>   ctx<span class="token punctuation">,</span>
+        RequestID<span class="token punctuation">:</span> c<span class="token punctuation">.</span><span class="token function">GetHeader</span><span class="token punctuation">(</span><span class="token string">&quot;X-Request-ID&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        ClientIP<span class="token punctuation">:</span>  c<span class="token punctuation">.</span><span class="token function">ClientIP</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        UserAgent<span class="token punctuation">:</span> c<span class="token punctuation">.</span><span class="token function">GetHeader</span><span class="token punctuation">(</span><span class="token string">&quot;User-Agent&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        StartTime<span class="token punctuation">:</span> time<span class="token punctuation">.</span><span class="token function">Now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        TraceID<span class="token punctuation">:</span>   c<span class="token punctuation">.</span><span class="token function">GetHeader</span><span class="token punctuation">(</span><span class="token string">&quot;X-Trace-ID&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">if</span> userID<span class="token punctuation">,</span> exists <span class="token operator">:=</span> c<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">&quot;user_id&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> exists <span class="token punctuation">{</span>
+        reqCtx<span class="token punctuation">.</span>UserID <span class="token operator">=</span> userID<span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token builtin">int64</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> role<span class="token punctuation">,</span> exists <span class="token operator">:=</span> c<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">&quot;user_role&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> exists <span class="token punctuation">{</span>
+        reqCtx<span class="token punctuation">.</span>UserRole <span class="token operator">=</span> role<span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">return</span> reqCtx
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">WithRequestContext</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> reqCtx <span class="token operator">*</span>RequestContext<span class="token punctuation">)</span> context<span class="token punctuation">.</span>Context <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> context<span class="token punctuation">.</span><span class="token function">WithValue</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> requestContextKey<span class="token punctuation">,</span> reqCtx<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">FromContext</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span>RequestContext<span class="token punctuation">,</span> <span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    reqCtx<span class="token punctuation">,</span> ok <span class="token operator">:=</span> ctx<span class="token punctuation">.</span><span class="token function">Value</span><span class="token punctuation">(</span>requestContextKey<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token operator">*</span>RequestContext<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> reqCtx<span class="token punctuation">,</span> ok
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br></div></div><h4 id="认证信息封装"><a href="#认证信息封装" class="header-anchor">#</a> 认证信息封装</h4> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// 只存储认证后的数据</span>
+<span class="token keyword">type</span> AuthInfo <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    UserID    <span class="token builtin">int64</span>
+    SessionID <span class="token builtin">string</span>
+    Token     <span class="token builtin">string</span>
+    ExpiresAt time<span class="token punctuation">.</span>Time
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> authInfoKey <span class="token keyword">struct</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">WithAuthInfo</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> auth <span class="token operator">*</span>AuthInfo<span class="token punctuation">)</span> context<span class="token punctuation">.</span>Context <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> context<span class="token punctuation">.</span><span class="token function">WithValue</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> authInfoKey<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> auth<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">GetAuthInfo</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span>AuthInfo<span class="token punctuation">,</span> <span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    auth<span class="token punctuation">,</span> ok <span class="token operator">:=</span> ctx<span class="token punctuation">.</span><span class="token function">Value</span><span class="token punctuation">(</span>authInfoKey<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token operator">*</span>AuthInfo<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> auth<span class="token punctuation">,</span> ok
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 专门的认证服务处理业务逻辑</span>
+<span class="token keyword">type</span> AuthService <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    sessionStore SessionStore
+    tokenParser  TokenParser
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>a <span class="token operator">*</span>AuthService<span class="token punctuation">)</span> <span class="token function">ValidateToken</span><span class="token punctuation">(</span>tokenString <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span>AuthInfo<span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    token<span class="token punctuation">,</span> err <span class="token operator">:=</span> a<span class="token punctuation">.</span>tokenParser<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>tokenString<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> fmt<span class="token punctuation">.</span><span class="token function">Errorf</span><span class="token punctuation">(</span><span class="token string">&quot;invalid token: %w&quot;</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    session<span class="token punctuation">,</span> err <span class="token operator">:=</span> a<span class="token punctuation">.</span>sessionStore<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span>token<span class="token punctuation">.</span>SessionID<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> fmt<span class="token punctuation">.</span><span class="token function">Errorf</span><span class="token punctuation">(</span><span class="token string">&quot;session not found: %w&quot;</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">return</span> <span class="token operator">&amp;</span>AuthInfo<span class="token punctuation">{</span>
+        UserID<span class="token punctuation">:</span>    session<span class="token punctuation">.</span>UserID<span class="token punctuation">,</span>
+        SessionID<span class="token punctuation">:</span> session<span class="token punctuation">.</span>ID<span class="token punctuation">,</span>
+        Token<span class="token punctuation">:</span>     tokenString<span class="token punctuation">,</span>
+        ExpiresAt<span class="token punctuation">:</span> token<span class="token punctuation">.</span>ExpiresAt<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br></div></div><h2 id="_4-避免-context-滥用"><a href="#_4-避免-context-滥用" class="header-anchor">#</a> 4. 避免 Context 滥用</h2> <h3 id="_4-1-滥用示例分析"><a href="#_4-1-滥用示例分析" class="header-anchor">#</a> 4.1 滥用示例分析</h3> <h4 id="❌-错误的-token-context-设计"><a href="#❌-错误的-token-context-设计" class="header-anchor">#</a> ❌ 错误的 Token Context 设计</h4> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// 这样的设计有问题</span>
+<span class="token keyword">type</span> tokenContext <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    session    Session  <span class="token comment">// ✅ 数据存储 - 合适</span>
+    tokenCache Token    <span class="token comment">// ✅ 数据存储 - 合适  </span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 但这样使用就有问题了：</span>
+ctx<span class="token punctuation">,</span> cancel <span class="token operator">:=</span> <span class="token function">WithTokenContext</span><span class="token punctuation">(</span>ctx <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span>  <span class="token comment">// ❌ 让 Context 承担验证职责</span>
+<span class="token comment">// 验证失败时 &lt;-ctx.Done() // ❌ 滥用取消机制</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p><strong>问题</strong>：</p> <ol><li><strong>混淆了 Context 的职责</strong>：让 Context 承担验证职责</li> <li><strong>滥用取消机制</strong>：用取消表示业务验证失败</li> <li><strong>语义混乱</strong>：cancel() 的含义不明确</li></ol> <h4 id="✅-正确的设计"><a href="#✅-正确的设计" class="header-anchor">#</a> ✅ 正确的设计</h4> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// Context 只存储数据 + 专门的认证服务</span>
+<span class="token keyword">func</span> <span class="token function">AuthMiddleware</span><span class="token punctuation">(</span>authService <span class="token operator">*</span>AuthService<span class="token punctuation">)</span> gin<span class="token punctuation">.</span>HandlerFunc <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">func</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        token <span class="token operator">:=</span> c<span class="token punctuation">.</span><span class="token function">GetHeader</span><span class="token punctuation">(</span><span class="token string">&quot;Authorization&quot;</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> token <span class="token operator">==</span> <span class="token string">&quot;&quot;</span> <span class="token punctuation">{</span>
+            c<span class="token punctuation">.</span><span class="token function">JSON</span><span class="token punctuation">(</span><span class="token number">401</span><span class="token punctuation">,</span> gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span><span class="token string">&quot;error&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;missing token&quot;</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+            c<span class="token punctuation">.</span><span class="token function">Abort</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token comment">// 验证 token（业务逻辑）</span>
+        authInfo<span class="token punctuation">,</span> err <span class="token operator">:=</span> authService<span class="token punctuation">.</span><span class="token function">ValidateToken</span><span class="token punctuation">(</span>token<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+            c<span class="token punctuation">.</span><span class="token function">JSON</span><span class="token punctuation">(</span><span class="token number">401</span><span class="token punctuation">,</span> gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span><span class="token string">&quot;error&quot;</span><span class="token punctuation">:</span> err<span class="token punctuation">.</span><span class="token function">Error</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+            c<span class="token punctuation">.</span><span class="token function">Abort</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token comment">// 将认证信息存储到 Context（数据传递）</span>
+        ctx <span class="token operator">:=</span> <span class="token function">WithAuthInfo</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span><span class="token function">Context</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> authInfo<span class="token punctuation">)</span>
+        c<span class="token punctuation">.</span>Request <span class="token operator">=</span> c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span><span class="token function">WithContext</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span>
+        
+        c<span class="token punctuation">.</span><span class="token function">Next</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><h3 id="_4-2-依赖注入-vs-context"><a href="#_4-2-依赖注入-vs-context" class="header-anchor">#</a> 4.2 依赖注入 vs Context</h3> <h4 id="❌-不应该通过-context-传递的"><a href="#❌-不应该通过-context-传递的" class="header-anchor">#</a> ❌ 不应该通过 Context 传递的</h4> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// 错误：通过 Context 传递依赖</span>
+<span class="token function">WithCache</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> redis<span class="token punctuation">,</span> prefix<span class="token punctuation">,</span> ttl<span class="token punctuation">)</span>
+<span class="token function">WithDatabase</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> db<span class="token punctuation">)</span>
+<span class="token function">WithLogger</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> logger<span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h4 id="✅-应该通过依赖注入"><a href="#✅-应该通过依赖注入" class="header-anchor">#</a> ✅ 应该通过依赖注入</h4> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// 正确：通过构造函数注入依赖</span>
+<span class="token keyword">type</span> AccountService <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    emailRepo   account<span class="token punctuation">.</span>EmailRepository
+    logger      <span class="token operator">*</span>logrus<span class="token punctuation">.</span>Logger
+    cache       <span class="token operator">*</span>redis<span class="token punctuation">.</span>Client
+    permService <span class="token operator">*</span>PermissionService
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>s <span class="token operator">*</span>AccountService<span class="token punctuation">)</span> <span class="token function">EmailRegister</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> email <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 从 context 获取请求信息</span>
+    reqInfo<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">:=</span> <span class="token function">GetRequestInfo</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span>
+    
+    <span class="token comment">// 使用注入的依赖</span>
+    s<span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">WithField</span><span class="token punctuation">(</span><span class="token string">&quot;request_id&quot;</span><span class="token punctuation">,</span> reqInfo<span class="token punctuation">.</span>RequestID<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Info</span><span class="token punctuation">(</span><span class="token string">&quot;开始注册&quot;</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> s<span class="token punctuation">.</span>emailRepo<span class="token punctuation">.</span><span class="token function">Create</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> email<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h2 id="_5-开源项目中的-context-使用案例"><a href="#_5-开源项目中的-context-使用案例" class="header-anchor">#</a> 5. 开源项目中的 Context 使用案例</h2> <h3 id="_5-1-分布式追踪-opentelemetry"><a href="#_5-1-分布式追踪-opentelemetry" class="header-anchor">#</a> 5.1 分布式追踪 (OpenTelemetry)</h3> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// github.com/open-telemetry/opentelemetry-go</span>
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">&quot;go.opentelemetry.io/otel/trace&quot;</span>
+    <span class="token string">&quot;go.opentelemetry.io/otel&quot;</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">handleRequest</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 创建 span 并存储到 context</span>
+    tracer <span class="token operator">:=</span> otel<span class="token punctuation">.</span><span class="token function">Tracer</span><span class="token punctuation">(</span><span class="token string">&quot;my-service&quot;</span><span class="token punctuation">)</span>
+    ctx<span class="token punctuation">,</span> span <span class="token operator">:=</span> tracer<span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">&quot;handle-request&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">defer</span> span<span class="token punctuation">.</span><span class="token function">End</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token comment">// 调用其他服务时传递 trace context</span>
+    <span class="token function">processOrder</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">processOrder</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 从 context 获取当前 span</span>
+    span <span class="token operator">:=</span> trace<span class="token punctuation">.</span><span class="token function">SpanFromContext</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span>
+    span<span class="token punctuation">.</span><span class="token function">SetAttributes</span><span class="token punctuation">(</span>attribute<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token string">&quot;order.id&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;12345&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token comment">// 创建子 span</span>
+    <span class="token boolean">_</span><span class="token punctuation">,</span> childSpan <span class="token operator">:=</span> tracer<span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">&quot;validate-order&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">defer</span> childSpan<span class="token punctuation">.</span><span class="token function">End</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// github.com/jaegertracing/jaeger-client-go</span>
+<span class="token keyword">import</span> <span class="token string">&quot;github.com/opentracing/opentracing-go&quot;</span>
+
+<span class="token keyword">func</span> <span class="token function">businessLogic</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 从 context 获取 span</span>
+    span<span class="token punctuation">,</span> ctx <span class="token operator">:=</span> opentracing<span class="token punctuation">.</span><span class="token function">StartSpanFromContext</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">&quot;business-logic&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">defer</span> span<span class="token punctuation">.</span><span class="token function">Finish</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    span<span class="token punctuation">.</span><span class="token function">SetTag</span><span class="token punctuation">(</span><span class="token string">&quot;user.id&quot;</span><span class="token punctuation">,</span> <span class="token function">getUserID</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token comment">// 传递给下游服务</span>
+    <span class="token function">callExternalAPI</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br></div></div><h3 id="_5-2-认证和授权信息"><a href="#_5-2-认证和授权信息" class="header-anchor">#</a> 5.2 认证和授权信息</h3> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// google.golang.org/grpc</span>
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">&quot;google.golang.org/grpc/metadata&quot;</span>
+    <span class="token string">&quot;google.golang.org/grpc/credentials&quot;</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>s <span class="token operator">*</span>server<span class="token punctuation">)</span> <span class="token function">GetUser</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> req <span class="token operator">*</span>pb<span class="token punctuation">.</span>GetUserRequest<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span>pb<span class="token punctuation">.</span>User<span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 从 context 获取认证信息</span>
+    md<span class="token punctuation">,</span> ok <span class="token operator">:=</span> metadata<span class="token punctuation">.</span><span class="token function">FromIncomingContext</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token operator">!</span>ok <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> status<span class="token punctuation">.</span><span class="token function">Error</span><span class="token punctuation">(</span>codes<span class="token punctuation">.</span>Unauthenticated<span class="token punctuation">,</span> <span class="token string">&quot;missing metadata&quot;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    token <span class="token operator">:=</span> md<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">&quot;authorization&quot;</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    userInfo<span class="token punctuation">,</span> err <span class="token operator">:=</span> <span class="token function">validateToken</span><span class="token punctuation">(</span>token<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> status<span class="token punctuation">.</span><span class="token function">Error</span><span class="token punctuation">(</span>codes<span class="token punctuation">.</span>Unauthenticated<span class="token punctuation">,</span> <span class="token string">&quot;invalid token&quot;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// 将用户信息存储到 context 传递给下游</span>
+    ctx <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">WithValue</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">&quot;user_info&quot;</span><span class="token punctuation">,</span> userInfo<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> s<span class="token punctuation">.</span>userService<span class="token punctuation">.</span><span class="token function">GetUser</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> req<span class="token punctuation">.</span>UserId<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// github.com/casbin/casbin</span>
+<span class="token keyword">type</span> contextKey <span class="token builtin">string</span>
+<span class="token keyword">const</span> <span class="token punctuation">(</span>
+    subjectKey contextKey <span class="token operator">=</span> <span class="token string">&quot;subject&quot;</span>
+    domainKey  contextKey <span class="token operator">=</span> <span class="token string">&quot;domain&quot;</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">WithSubject</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> subject <span class="token builtin">string</span><span class="token punctuation">)</span> context<span class="token punctuation">.</span>Context <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> context<span class="token punctuation">.</span><span class="token function">WithValue</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> subjectKey<span class="token punctuation">,</span> subject<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">WithDomain</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> domain <span class="token builtin">string</span><span class="token punctuation">)</span> context<span class="token punctuation">.</span>Context <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> context<span class="token punctuation">.</span><span class="token function">WithValue</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> domainKey<span class="token punctuation">,</span> domain<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br></div></div><h3 id="_5-3-多租户-multi-tenancy"><a href="#_5-3-多租户-multi-tenancy" class="header-anchor">#</a> 5.3 多租户 (Multi-tenancy)</h3> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// k8s.io/apiserver/pkg/endpoints/request</span>
+<span class="token keyword">type</span> RequestInfo <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    IsResourceRequest <span class="token builtin">bool</span>
+    Path              <span class="token builtin">string</span>
+    Verb              <span class="token builtin">string</span>
+    APIPrefix         <span class="token builtin">string</span>
+    APIGroup          <span class="token builtin">string</span>
+    APIVersion        <span class="token builtin">string</span>
+    Namespace         <span class="token builtin">string</span>  <span class="token comment">// 租户隔离</span>
+    Resource          <span class="token builtin">string</span>
+    Subresource       <span class="token builtin">string</span>
+    Name              <span class="token builtin">string</span>
+    Parts             <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">WithRequestInfo</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> info <span class="token operator">*</span>RequestInfo<span class="token punctuation">)</span> context<span class="token punctuation">.</span>Context <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> context<span class="token punctuation">.</span><span class="token function">WithValue</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> requestInfoKey<span class="token punctuation">,</span> info<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// istio.io/istio/pkg/config/context</span>
+<span class="token keyword">type</span> Context <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 租户信息</span>
+    Namespace <span class="token builtin">string</span>
+    Cluster   <span class="token builtin">string</span>
+    Network   <span class="token builtin">string</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div><h3 id="_5-4-请求-id-和关联-id"><a href="#_5-4-请求-id-和关联-id" class="header-anchor">#</a> 5.4 请求 ID 和关联 ID</h3> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// github.com/gin-gonic/gin</span>
+<span class="token keyword">func</span> <span class="token function">RequestIDMiddleware</span><span class="token punctuation">(</span><span class="token punctuation">)</span> gin<span class="token punctuation">.</span>HandlerFunc <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">func</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        requestID <span class="token operator">:=</span> c<span class="token punctuation">.</span><span class="token function">GetHeader</span><span class="token punctuation">(</span><span class="token string">&quot;X-Request-ID&quot;</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> requestID <span class="token operator">==</span> <span class="token string">&quot;&quot;</span> <span class="token punctuation">{</span>
+            requestID <span class="token operator">=</span> <span class="token function">generateRequestID</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token comment">// 存储到 context</span>
+        ctx <span class="token operator">:=</span> context<span class="token punctuation">.</span><span class="token function">WithValue</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span><span class="token function">Context</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">&quot;request_id&quot;</span><span class="token punctuation">,</span> requestID<span class="token punctuation">)</span>
+        c<span class="token punctuation">.</span>Request <span class="token operator">=</span> c<span class="token punctuation">.</span>Request<span class="token punctuation">.</span><span class="token function">WithContext</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span>
+        
+        <span class="token comment">// 添加到响应头</span>
+        c<span class="token punctuation">.</span><span class="token function">Header</span><span class="token punctuation">(</span><span class="token string">&quot;X-Request-ID&quot;</span><span class="token punctuation">,</span> requestID<span class="token punctuation">)</span>
+        c<span class="token punctuation">.</span><span class="token function">Next</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// github.com/labstack/echo</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>e <span class="token operator">*</span>Echo<span class="token punctuation">)</span> <span class="token function">Use</span><span class="token punctuation">(</span>middleware <span class="token operator">...</span>MiddlewareFunc<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Echo 内部使用 context 存储请求相关信息</span>
+    c<span class="token punctuation">.</span><span class="token function">Set</span><span class="token punctuation">(</span><span class="token string">&quot;request_id&quot;</span><span class="token punctuation">,</span> requestID<span class="token punctuation">)</span>
+    c<span class="token punctuation">.</span><span class="token function">Set</span><span class="token punctuation">(</span><span class="token string">&quot;user_id&quot;</span><span class="token punctuation">,</span> userID<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><h3 id="_5-5-地理位置和语言"><a href="#_5-5-地理位置和语言" class="header-anchor">#</a> 5.5 地理位置和语言</h3> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// Shopify 风格的地理位置信息</span>
+<span class="token keyword">type</span> LocationContext <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    Country     <span class="token builtin">string</span>
+    Region      <span class="token builtin">string</span>
+    Currency    <span class="token builtin">string</span>
+    Language    <span class="token builtin">string</span>
+    Timezone    <span class="token builtin">string</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">WithLocation</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> loc <span class="token operator">*</span>LocationContext<span class="token punctuation">)</span> context<span class="token punctuation">.</span>Context <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> context<span class="token punctuation">.</span><span class="token function">WithValue</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> locationKey<span class="token punctuation">,</span> loc<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// github.com/stripe/stripe-go</span>
+<span class="token keyword">type</span> RequestContext <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    Account   <span class="token builtin">string</span>  <span class="token comment">// Stripe Connect 账户</span>
+    APIKey    <span class="token builtin">string</span>  <span class="token comment">// API 密钥</span>
+    UserAgent <span class="token builtin">string</span>
+    Language  <span class="token builtin">string</span>  <span class="token comment">// 国际化</span>
+<span class="token punctuation">}</span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><h3 id="_5-6-工作流和状态信息"><a href="#_5-6-工作流和状态信息" class="header-anchor">#</a> 5.6 工作流和状态信息</h3> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// go.temporal.io/sdk/workflow</span>
+<span class="token keyword">func</span> <span class="token function">MyWorkflow</span><span class="token punctuation">(</span>ctx workflow<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> input <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
+    <span class="token comment">// workflow context 包含执行信息</span>
+    info <span class="token operator">:=</span> workflow<span class="token punctuation">.</span><span class="token function">GetInfo</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span>
+    logger <span class="token operator">:=</span> workflow<span class="token punctuation">.</span><span class="token function">GetLogger</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span>
+    
+    logger<span class="token punctuation">.</span><span class="token function">Info</span><span class="token punctuation">(</span><span class="token string">&quot;Workflow started&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;WorkflowID&quot;</span><span class="token punctuation">,</span> info<span class="token punctuation">.</span>WorkflowExecution<span class="token punctuation">.</span>ID<span class="token punctuation">)</span>
+    
+    <span class="token comment">// 传递给 activity</span>
+    ctx <span class="token operator">=</span> workflow<span class="token punctuation">.</span><span class="token function">WithActivityOptions</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> workflow<span class="token punctuation">.</span>ActivityOptions<span class="token punctuation">{</span>
+        StartToCloseTimeout<span class="token punctuation">:</span> time<span class="token punctuation">.</span>Minute<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> workflow<span class="token punctuation">.</span><span class="token function">ExecuteActivity</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> MyActivity<span class="token punctuation">,</span> input<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// go.uber.org/cadence/workflow</span>
+<span class="token keyword">type</span> WorkflowContext <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    WorkflowID   <span class="token builtin">string</span>
+    RunID        <span class="token builtin">string</span>
+    TaskList     <span class="token builtin">string</span>
+    Domain       <span class="token builtin">string</span>
+<span class="token punctuation">}</span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><h3 id="_5-7-组织和部门信息"><a href="#_5-7-组织和部门信息" class="header-anchor">#</a> 5.7 组织和部门信息</h3> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// gitlab.com/gitlab-org/gitlab</span>
+<span class="token keyword">type</span> ProjectContext <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    ProjectID   <span class="token builtin">int64</span>
+    NamespaceID <span class="token builtin">int64</span>
+    UserID      <span class="token builtin">int64</span>
+    GroupID     <span class="token builtin">int64</span>  <span class="token comment">// 组织信息</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">WithProjectContext</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> pc <span class="token operator">*</span>ProjectContext<span class="token punctuation">)</span> context<span class="token punctuation">.</span>Context <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> context<span class="token punctuation">.</span><span class="token function">WithValue</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> projectContextKey<span class="token punctuation">,</span> pc<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token comment">// github.com/google/go-github</span>
+<span class="token keyword">type</span> Context <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    Owner      <span class="token builtin">string</span>  <span class="token comment">// 组织或用户</span>
+    Repository <span class="token builtin">string</span>  <span class="token comment">// 仓库</span>
+    Branch     <span class="token builtin">string</span>  <span class="token comment">// 分支</span>
+<span class="token punctuation">}</span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><h3 id="_5-8-设备和客户端信息"><a href="#_5-8-设备和客户端信息" class="header-anchor">#</a> 5.8 设备和客户端信息</h3> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// firebase.google.com/go</span>
+<span class="token keyword">type</span> ClientContext <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    AppID       <span class="token builtin">string</span>
+    Platform    <span class="token builtin">string</span>  <span class="token comment">// iOS, Android, Web</span>
+    Version     <span class="token builtin">string</span>
+    DeviceID    <span class="token builtin">string</span>
+    UserAgent   <span class="token builtin">string</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token comment">// github.com/twilio/twilio-go</span>
+<span class="token keyword">type</span> RequestContext <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    AccountSid <span class="token builtin">string</span>
+    AuthToken  <span class="token builtin">string</span>
+    Region     <span class="token builtin">string</span>
+    Edge       <span class="token builtin">string</span>
+<span class="token punctuation">}</span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><h3 id="_5-9-监控和指标"><a href="#_5-9-监控和指标" class="header-anchor">#</a> 5.9 监控和指标</h3> <div class="language-go line-numbers-mode"><pre class="language-go"><code><span class="token comment">// github.com/prometheus/client_golang</span>
+<span class="token keyword">import</span> <span class="token string">&quot;github.com/prometheus/client_golang/prometheus&quot;</span>
+
+<span class="token keyword">type</span> MetricsContext <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    Labels prometheus<span class="token punctuation">.</span>Labels
+    Registry <span class="token operator">*</span>prometheus<span class="token punctuation">.</span>Registry
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">WithMetrics</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> mc <span class="token operator">*</span>MetricsContext<span class="token punctuation">)</span> context<span class="token punctuation">.</span>Context <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> context<span class="token punctuation">.</span><span class="token function">WithValue</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> metricsKey<span class="token punctuation">,</span> mc<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token comment">// github.com/DataDog/dd-trace-go</span>
+<span class="token keyword">import</span> <span class="token string">&quot;gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer&quot;</span>
+
+<span class="token keyword">func</span> <span class="token function">handleRequest</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    span<span class="token punctuation">,</span> ctx <span class="token operator">:=</span> tracer<span class="token punctuation">.</span><span class="token function">StartSpanFromContext</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">&quot;web.request&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">defer</span> span<span class="token punctuation">.</span><span class="token function">Finish</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    span<span class="token punctuation">.</span><span class="token function">SetTag</span><span class="token punctuation">(</span><span class="token string">&quot;user.id&quot;</span><span class="token punctuation">,</span> <span class="token function">getUserID</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    span<span class="token punctuation">.</span><span class="token function">SetTag</span><span class="token punctuation">(</span><span class="token string">&quot;http.method&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;POST&quot;</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><h2 id="_6-适合存储在-context-中的数据特征"><a href="#_6-适合存储在-context-中的数据特征" class="header-anchor">#</a> 6. 适合存储在 Context 中的数据特征</h2> <h3 id="_6-1-核心特征"><a href="#_6-1-核心特征" class="header-anchor">#</a> 6.1 核心特征</h3> <ol><li><strong>请求范围</strong>：与特定请求相关</li> <li><strong>只读数据</strong>：不会被修改</li> <li><strong>跨层传递</strong>：需要在多个层级间传递</li> <li><strong>身份标识</strong>：用户、租户、会话等身份信息</li> <li><strong>元数据</strong>：请求ID、追踪信息、地理位置等</li></ol> <h3 id="_6-2-常见使用场景"><a href="#_6-2-常见使用场景" class="header-anchor">#</a> 6.2 常见使用场景</h3> <ul><li><strong>用户身份</strong>：UserID, SessionID, Role</li> <li><strong>请求追踪</strong>：RequestID, TraceID, SpanID</li> <li><strong>多租户</strong>：TenantID, Namespace, Organization</li> <li><strong>地理位置</strong>：Country, Region, Timezone, Language</li> <li><strong>设备信息</strong>：Platform, Version, DeviceID</li> <li><strong>工作流</strong>：WorkflowID, ExecutionID, TaskID</li></ul> <h2 id="_7-学习资源"><a href="#_7-学习资源" class="header-anchor">#</a> 7. 学习资源</h2> <h3 id="_7-1-官方资源"><a href="#_7-1-官方资源" class="header-anchor">#</a> 7.1 官方资源</h3> <ul><li><a href="https://blog.golang.org/context" target="_blank" rel="noopener noreferrer">Go Blog: Context<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li> <li><a href="https://blog.golang.org/pipelines" target="_blank" rel="noopener noreferrer">Go Blog: Pipelines and cancellation<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li> <li><a href="https://pkg.go.dev/context" target="_blank" rel="noopener noreferrer">Context Package Documentation<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul> <h3 id="_7-2-开源项目示例"><a href="#_7-2-开源项目示例" class="header-anchor">#</a> 7.2 开源项目示例</h3> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># OpenTelemetry 分布式追踪</span>
+<span class="token function">git</span> clone https://github.com/open-telemetry/opentelemetry-go
+<span class="token builtin class-name">cd</span> opentelemetry-go/example
+
+<span class="token comment"># gRPC 认证示例</span>
+<span class="token function">git</span> clone https://github.com/grpc/grpc-go
+<span class="token builtin class-name">cd</span> grpc-go/examples/features/authentication
+
+<span class="token comment"># Gin 中间件示例</span>
+<span class="token function">git</span> clone https://github.com/gin-gonic/examples
+<span class="token builtin class-name">cd</span> examples/middleware
+
+<span class="token comment"># Kubernetes 请求处理</span>
+<span class="token function">git</span> clone https://github.com/kubernetes/kubernetes
+<span class="token comment"># 查看 staging/src/k8s.io/apiserver/pkg/endpoints/request/</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><h2 id="_8-总结"><a href="#_8-总结" class="header-anchor">#</a> 8. 总结</h2> <p>Context 是 Go 语言中强大的上下文管理机制，正确使用的关键是：</p> <ol><li><strong>明确职责</strong>：Context 用于数据传递，不承担业务逻辑</li> <li><strong>遵循原则</strong>：只存储请求范围的只读数据</li> <li><strong>避免滥用</strong>：不要用 Context 替代依赖注入</li> <li><strong>学习实践</strong>：参考优秀开源项目的使用方式</li> <li><strong>类型安全</strong>：使用自定义 key 类型避免冲突</li></ol> <p>通过合理使用 Context，可以构建出清晰、可维护、可测试的 Go 应用程序。</p></div> <footer class="page-edit" style="display:none;"><!----> <!----></footer> <!----> <!----> <!----></main> <!----></div></div></div></div><div class="global-ui"><div class="back-to-ceiling" style="right:1rem;bottom:6rem;width:2.5rem;height:2.5rem;border-radius:.25rem;line-height:2.5rem;display:none;" data-v-c6073ba8 data-v-c6073ba8><svg t="1574745035067" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5404" class="icon" data-v-c6073ba8><path d="M526.60727968 10.90185116a27.675 27.675 0 0 0-29.21455937 0c-131.36607665 82.28402758-218.69155461 228.01873535-218.69155402 394.07834331a462.20625001 462.20625001 0 0 0 5.36959153 69.94390903c1.00431239 6.55289093-0.34802892 13.13561351-3.76865779 18.80351572-32.63518765 54.11355614-51.75690182 118.55860487-51.7569018 187.94566865a371.06718723 371.06718723 0 0 0 11.50484808 91.98906777c6.53300375 25.50556257 41.68394495 28.14064038 52.69160883 4.22606766 17.37162448-37.73630017 42.14135425-72.50938081 72.80769204-103.21549295 2.18761121 3.04276886 4.15646224 6.24463696 6.40373557 9.22774369a1871.4375 1871.4375 0 0 0 140.04691725 5.34970492 1866.36093723 1866.36093723 0 0 0 140.04691723-5.34970492c2.24727335-2.98310674 4.21612437-6.18497483 6.3937923-9.2178004 30.66633723 30.70611158 55.4360664 65.4791928 72.80769147 103.21549355 11.00766384 23.91457269 46.15860503 21.27949489 52.69160879-4.22606768a371.15156223 371.15156223 0 0 0 11.514792-91.99901164c0-69.36717486-19.13165746-133.82216804-51.75690182-187.92578088-3.42062944-5.66790279-4.76302748-12.26056868-3.76865837-18.80351632a462.20625001 462.20625001 0 0 0 5.36959269-69.943909c-0.00994388-166.08943902-87.32547796-311.81420293-218.6915546-394.09823051zM605.93803103 357.87693858a93.93749974 93.93749974 0 1 1-187.89594924 6.1e-7 93.93749974 93.93749974 0 0 1 187.89594924-6.1e-7z" p-id="5405" data-v-c6073ba8></path><path d="M429.50777625 765.63860547C429.50777625 803.39355007 466.44236686 1000.39046097 512.00932183 1000.39046097c45.56695499 0 82.4922232-197.00623328 82.5015456-234.7518555 0-37.75494459-36.9345906-68.35043303-82.4922232-68.34111062-45.57627738-0.00932239-82.52019037 30.59548842-82.51086798 68.34111062z" p-id="5406" data-v-c6073ba8></path></svg></div></div></div>
+    <script src="/assets/js/app.996b1a4d.js" defer></script><script src="/assets/js/3.0091ba29.js" defer></script><script src="/assets/js/1.aa576b7d.js" defer></script><script src="/assets/js/18.fd55f558.js" defer></script>
+  </body>
+</html>
