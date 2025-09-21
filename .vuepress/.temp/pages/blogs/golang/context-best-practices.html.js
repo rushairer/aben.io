@@ -1,3 +1,16 @@
 import comp from "/Users/aben/Git/aben.io/.vuepress/.temp/pages/blogs/golang/context-best-practices.html.vue"
 const data = JSON.parse("{\"path\":\"/blogs/golang/context-best-practices.html\",\"title\":\"Go 中 context 的最佳实践和使用范式\",\"lang\":\"en-US\",\"frontmatter\":{\"title\":\"Go 中 context 的最佳实践和使用范式\",\"date\":\"2025-03-21T00:00:00.000Z\",\"tags\":[\"golang\",\"context\"],\"categories\":[\"golang\"]},\"git\":{\"updatedTime\":1742492417000,\"contributors\":[{\"name\":\"Aben\",\"username\":\"Aben\",\"email\":\"me@aben.io\",\"commits\":3,\"url\":\"https://github.com/Aben\"}],\"changelog\":[{\"hash\":\"ed2cdd024530be8b52d2e9d6e3f23236810da87f\",\"time\":1742492417000,\"email\":\"me@aben.io\",\"author\":\"Aben\",\"message\":\"feat: golang context 最佳实践\"},{\"hash\":\"1707c262cd2f28d09b269c5dadf2e5fb5cb71348\",\"time\":1742492303000,\"email\":\"me@aben.io\",\"author\":\"Aben\",\"message\":\"feat: golang context 最佳实践\"},{\"hash\":\"be54f14e39dc4ec733bc68c35f7ae0a641a60ab4\",\"time\":1742492205000,\"email\":\"me@aben.io\",\"author\":\"Aben\",\"message\":\"feat: golang context 最佳实践\"}]},\"filePathRelative\":\"blogs/golang/context-best-practices.md\"}")
 export { comp, data }
+
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept()
+  if (__VUE_HMR_RUNTIME__.updatePageData) {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  }
+}
+
+if (import.meta.hot) {
+  import.meta.hot.accept(({ data }) => {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  })
+}

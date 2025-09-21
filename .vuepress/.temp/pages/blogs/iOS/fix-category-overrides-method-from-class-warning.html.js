@@ -1,3 +1,16 @@
 import comp from "/Users/aben/Git/aben.io/.vuepress/.temp/pages/blogs/iOS/fix-category-overrides-method-from-class-warning.html.vue"
 const data = JSON.parse("{\"path\":\"/blogs/iOS/fix-category-overrides-method-from-class-warning.html\",\"title\":\"Fix \\\"category overrides method from class\\\" warning\",\"lang\":\"en-US\",\"frontmatter\":{\"title\":\"Fix \\\"category overrides method from class\\\" warning\",\"date\":\"2021-09-19T00:10:48.000Z\",\"tags\":[\"Xcode\"],\"categories\":[\"iOS\"]},\"git\":{\"updatedTime\":1631981622000,\"contributors\":[{\"name\":\"rushairer\",\"username\":\"rushairer\",\"email\":\"5195693+rushairer@users.noreply.github.com\",\"commits\":1,\"url\":\"https://github.com/rushairer\"}],\"changelog\":[{\"hash\":\"6a453d64b95740cda1cfa0c0e79aba6c8fe284d2\",\"time\":1631981622000,\"email\":\"5195693+rushairer@users.noreply.github.com\",\"author\":\"Aben\",\"message\":\"Create fix-category-overrides-method-from-class-warning.md\"}]},\"filePathRelative\":\"blogs/iOS/fix-category-overrides-method-from-class-warning.md\"}")
 export { comp, data }
+
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept()
+  if (__VUE_HMR_RUNTIME__.updatePageData) {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  }
+}
+
+if (import.meta.hot) {
+  import.meta.hot.accept(({ data }) => {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  })
+}
