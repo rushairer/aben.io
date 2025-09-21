@@ -1,8 +1,13 @@
-module.exports = {
-  "title": "Aben's Blog",
-  "description": "This is aben's blog.",
-  "dest": "public",
-  "head": [
+import { defineUserConfig } from '@vuepress/cli'
+import { viteBundler } from '@vuepress/bundler-vite'
+import { defaultTheme } from '@vuepress/theme-default'
+
+export default defineUserConfig({
+  bundler: viteBundler(),
+  title: "Aben's Blog",
+  description: "This is aben's blog.",
+  dest: "public",
+  head: [
     [
       "link",
       {
@@ -18,8 +23,8 @@ module.exports = {
       }
     ]
   ],
-  "theme": "reco",
-  "themeConfig": {
+  theme: defaultTheme({
+
     "valineConfig": {
       "appId": "KQXnjWYg1fgbPFTsKxmp8R88-gzGzoHsz",
       "appKey": "mQV2EaGlDOHTKsnCgS6o9A8J",
@@ -81,8 +86,8 @@ module.exports = {
     "authorAvatar": "/avatar.jpg",
     "record": "",
     "startYear": "2020"
-  },
-  "markdown": {
-    "lineNumbers": true
+  }),
+  markdown: {
+    lineNumbers: true
   }
-}
+})
