@@ -17,7 +17,8 @@
     "vue": "^3.4.0"
   },
   "overrides": {
-    "markdown-it": "^14.0.0"
+    "markdown-it": "^14.0.0",
+    "undici": "^5.28.4"
   },
   "description": "This is blog of aben."
 }
